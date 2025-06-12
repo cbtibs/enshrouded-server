@@ -1,4 +1,4 @@
-FROM ghcr.io/cbtibs/base-containers:cd65e06-steamcmd-proton
+FROM ghcr.io/cbtibs/base-containers:latest-steamcmd-proton
 
 ENV ENSHROUDED_PATH="/home/steam/enshrouded"
 ENV ENSHROUDED_CONFIG="${ENSHROUDED_PATH}/enshrouded_server.json"
