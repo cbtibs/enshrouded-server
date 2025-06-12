@@ -44,6 +44,12 @@ spec:
             - name: udp
               containerPort: {{ .Values.service.port }}
               protocol: UDP
+          {{- if .Values.configMap.create }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "enshrouded-server.fullname" . }}
+          {{- end }}
+          {{- with .Values.serviceAccount.annotations }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
