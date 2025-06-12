@@ -49,7 +49,6 @@ spec:
             - configMapRef:
                 name: {{ include "enshrouded-server.fullname" . }}
           {{- end }}
-          {{- with .Values.serviceAccount.annotations }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
