@@ -5,7 +5,7 @@ timestamp() {
     date +"%Y-%m-%d %H:%M:%S"
 }
 
-# --- Environment Variable Defaults ---
+# Environment Variable Defaults
 : "${SERVER_NAME:=Enshrouded Server}"
 : "${SAVE_DIRECTORY:=./savegame}"
 : "${LOG_DIRECTORY:=./logs}"
@@ -50,12 +50,12 @@ timestamp() {
 : "${ADMIN_PASSWORD:=adminPass}"
 : "${USER_PASSWORD:=userPass}"
 
-# --- Generate Configuration File ---
+# Generate Configuration File
 envsubst < /home/steam/enshrouded_server.template.json > "${ENSHROUDED_PATH}/enshrouded_server.json"
 set +a
 echo "$(timestamp) INFO: Configuration file generated at ${ENSHROUDED_PATH}/enshrouded_server.json"
 
-# --- Ensure Log Directory and Symlink ---
+# Ensure Log Directory and Symlink
 mkdir -p "${ENSHROUDED_PATH}/logs"
 if ! [ -f "${ENSHROUDED_PATH}/logs/enshrouded_server.log" ]; then
     touch "${ENSHROUDED_PATH}/logs/enshrouded_server.log"
@@ -64,7 +64,7 @@ fi
 # Link logfile to stdout (using the stdout of PID 1)
 ln -sf /proc/1/fd/1 "${ENSHROUDED_PATH}/logs/enshrouded_server.log"
 
-# --- Launch the Server Process ---
+# Launch the Server Process
 echo "$(timestamp) INFO: Starting Enshrouded server using Proton..."
 "$PROTON_PATH/proton" run "${ENSHROUDED_PATH}/enshrouded_server.exe" &
 
@@ -82,7 +82,7 @@ while [ $timeout -lt 11 ]; do
     echo "$(timestamp) INFO: Waiting for enshrouded_server.exe to be running"
 done
 
-# --- Keep server open until terminate ---
+# Keep server open until terminate
 tail --pid=$enshrouded_pid -f /dev/null &
 wait
 

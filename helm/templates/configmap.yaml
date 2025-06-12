@@ -1,0 +1,11 @@
+{{- if .Values.configMap.create -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "enshrouded-server.fullname" . }}
+  labels:
+    {{- include "enshrouded-server.labels" . | nindent 4 }}
+data:
+  config.yaml: |-
+{{ toYaml .Values.configMap.env | indent 4 }}
+{{- end }}

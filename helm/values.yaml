@@ -1,0 +1,119 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/cbtibs/enshrouded-server
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  automount: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  runAsUser: 10000
+  runAsGroup: 10000
+  fsGroup: 10000
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 15637
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources: {}
+
+livenessProbe: {}
+readinessProbe: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+volumeMounts:
+  - name: savegame-data
+    mountPath: /home/steam/enshrouded/savegame
+
+volumes:
+  - name: savegame-data
+    persistentVolumeClaim:
+      claimName: savegame-data
+
+pvc:
+  name: savegame-data
+  size: "64Gi"
+  storageClassName: local-path
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+configMap:
+  create: true
+  env:
+    SERVER_NAME: "Enshrouded Server"
+    SAVE_DIRECTORY: "./savegame"
+    LOG_DIRECTORY: "./logs"
+    SERVER_IP: "0.0.0.0"
+    QUERY_PORT: 15637
+    SLOT_COUNT: 16
+    GAME_SETTINGS_PRESET: "Default"
+    PLAYER_HEALTH_FACTOR: 1
+    PLAYER_MANA_FACTOR: 1
+    PLAYER_STAMINA_FACTOR: 1
+    PLAYER_BODY_HEAT_FACTOR: 1
+    ENABLE_DURABILITY: true
+    ENABLE_STARVING_DEBUFF: false
+    FOOD_BUFF_DURATION_FACTOR: 1
+    FROM_HUNGER_TO_STARVING: 600000000000
+    SHROUD_TIME_FACTOR: 1
+    TOMBSTONE_MODE: "AddBackpackMaterials"
+    ENABLE_GLIDER_TURBULENCES: true
+    WEATHER_FREQUENCY: "Normal"
+    MINING_DAMAGE_FACTOR: 1
+    PLANT_GROWTH_SPEED_FACTOR: 1
+    RESOURCE_DROP_STACK_AMOUNT_FACTOR: 1
+    FACTORY_PRODUCTION_SPEED_FACTOR: 1
+    PERK_UPGRADE_RECYCLING_FACTOR: 0.5
+    PERK_COST_FACTOR: 1
+    EXPERIENCE_COMBAT_FACTOR: 1
+    EXPERIENCE_MINING_FACTOR: 1
+    EXPERIENCE_EXPLORATION_QUESTS_FACTOR: 1
+    RANDOM_SPAWNER_AMOUNT: "Normal"
+    AGGRO_POOL_AMOUNT: "Normal"
+    ENEMY_DAMAGE_FACTOR: 1
+    ENEMY_HEALTH_FACTOR: 1
+    ENEMY_STAMINA_FACTOR: 1
+    ENEMY_PERCEPTION_RANGE_FACTOR: 1
+    BOSS_DAMAGE_FACTOR: 1
+    BOSS_HEALTH_FACTOR: 1
+    THREAT_BONUS: 1
+    PACIFY_ALL_ENEMIES: false
+    TAMING_STARTLE_REPERCUSSION: "LoseSomeProgress"
+    DAY_TIME_DURATION: 1800000000000
+    NIGHT_TIME_DURATION: 720000000000
+    ADMIN_PASSWORD: "adminPass"
+    USER_PASSWORD: "userPass"
